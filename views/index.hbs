@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css" type="text/css" media="all">
+    <title>Weather App</title>
+</head>
+<body>
+     
+    <div class="container">
+        <div class="current-info">
+            <div class="date-container">
+            <div id="city">
+              <div id="header">Weather Forecast</div>
+    
+              <p id="inputContainer">Enter Location: <br>
+                <form action="/city" method="get">
+                <input type="text" name="cityInput" placeholder="eg. delhi">
+                <input type="submit" >
+                </form>
+            </p>
+              
+            
+        
+            </div>
+                <div class="time" id="time">
+                    12:30 PM
+                </div>
+                <div class="date" id="date">
+                    Monday, 25 May
+                </div>
+
+                <div class="others" id="current-weather-items">
+
+                    <h3 style="text-align: center; color: rgb(135, 135, 236); opacity: 0.5;">GET WEATHER UPDATE BY LOCATION</h3>
+                    <form action="/location">
+                    <input type="submit">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        
+    </div>
+
+    <div class="future-forecast">
+        <div class="today" id="current-temp">
+            
+            <img src="http://openweathermap.org/img/wn/{{day0img}}@2x.png" alt="weather icon" class="w-icon">
+            <div class="other">
+                <div class="day" id="day0">Monday</div>
+                <div class="temp"  >Night:{{day0night}}&#176; C</div>
+                <div class="temp" >Day:{{day0day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day0humidity}}</div>
+                <div class="temp" >Wind speed -{{day0windspeed}}</div>
+
+            </div>
+        </div>
+
+        <div class="weather-forecast" id="weather-forecast">
+            <div class="weather-forecast-item">
+
+                <div class="day" id="day1">Tue</div>
+                <img src="http://openweathermap.org/img/wn/{{day1img}}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp" >Night - {{day1night}}&#176; C</div>
+                <div class="temp" >Day -{{day1day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day1humidity}}</div>
+
+            </div>
+            <div class="weather-forecast-item">
+
+                <div class="day" id="day2">Wed</div>
+                <img src="http://openweathermap.org/img/wn/{{day2img}}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp" id="day2nighttemp">Night - {{day2night}}&#176; C</div>
+                <div class="temp" id="day2daytemp">Day - {{day2day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day2humidity}}</div>
+
+            </div>
+            <div class="weather-forecast-item">
+
+                <div class="day" id="day3">Thur</div>
+                <img src="http://openweathermap.org/img/wn/{{day3img}}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp" >Night - {{day3night}}&#176; C</div>
+                <div class="temp" >Day - {{day3day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day3humidity}}</div>
+
+            </div>
+            <div class="weather-forecast-item">
+
+                <div class="day" id="day4">Fri</div>
+                <img src="http://openweathermap.org/img/wn/{{day4img}}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp" >Night - {{day4night}}&#176; C</div>
+                <div class="temp" >Day -{{day4day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day4humidity}}</div>
+
+            </div>
+            <div class="weather-forecast-item">
+
+                <div class="day" id="day5">Sat</div>
+                <img src="http://openweathermap.org/img/wn/{{day5img}}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp" >Night - {{day5night}}&#176; C</div>
+                <div class="temp" >Day - {{day5day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day5humidity}}</div>
+
+
+            </div>
+            <div class="weather-forecast-item">
+
+                <div class="day" id="day6">Sun</div>
+                <img src="http://openweathermap.org/img/wn/{{day6img}}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp" >Night - {{day6night}}&#176; C</div>
+                <div class="temp" >Day - {{day6day}}&#176; C</div>
+                <div class="temp" >Humidity -{{day6humidity}}</div>
+
+            </div>
+            
+
+        </div>
+    </div>
+
+    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    
+    <script >
+
+        var citysearch ="delhi";
+        var latitude;
+        var longitude;
+    
+        const currentTime = document.getElementById("time")
+        let currentdate = document.getElementById("date");
+
+        const tempStatus = "clouds";
+
+        const getCurrenttime = () =>{
+            var now = new Date();
+            let hours = now.getHours();
+            
+            let minutes = now.getMinutes();
+
+            let ampm = "AM";
+
+            
+            if(hours>11){
+                ampm  = "PM";
+                if(hours>12){
+                    hours-=12;
+                }
+            }
+            if(minutes <10){
+                minutes = "0" + minutes;
+            }
+            console.log(hours);
+            return `${hours} ${":"} ${minutes} ${ampm}`;
+        }
+        
+        const getCurrentTime= () =>{
+
+            var weekday = new Array(7);
+            weekday[0]= "Sunday";
+            weekday[1]= "Monday";
+            weekday[2]= "Tueday";
+            weekday[3]= "Wedday";
+            weekday[4]= "Thursday";
+            weekday[5]= "Friday";
+            weekday[6]= "Saturday";
+
+            let currentTime = new Date();
+            console.log(weekday[currentTime.getDay()]);
+        
+            var months =[
+                "Jan",
+                "Feb",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+            ];
+
+            var now = new Date();
+            var month = months[now.getMonth() + 1];
+            var day = now.getDate();
+            console.log(month + '/' + day);
+            
+            document.getElementById("day0").innerHTML = weekday[currentTime.getDay()]
+            document.getElementById("day1").innerHTML = weekday[(currentTime.getDay()+1)%7]
+            document.getElementById("day2").innerHTML = weekday[(currentTime.getDay()+2)%7]
+            document.getElementById("day3").innerHTML = weekday[(currentTime.getDay()+3)%7]
+            document.getElementById("day4").innerHTML = weekday[(currentTime.getDay()+4)%7]
+            document.getElementById("day5").innerHTML = weekday[(currentTime.getDay()+5)%7]
+            document.getElementById("day6").innerHTML = weekday[(currentTime.getDay()+6)%7]
+
+            return ` ${weekday[currentTime.getDay()]} ${", "} ${day} ${month}`;
+            
+        }
+
+        currentdate.innerHTML =  getCurrentTime();
+        currentTime.innerHTML =  getCurrenttime();
+
+
+    </script>
+
+
+    
+</body>
+</html>
